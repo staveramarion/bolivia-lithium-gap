@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lithium Triangle Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+<h1>Bolivia's Lithium Gap: Reserves vs. Reality</h1>
+<p>This analysis examines why Bolivia, holder of one of the world's largest lithium resourse bases has converted so little of it into actual exports, using the countries of Chile and Argentina as comparative benchmarks. The data covers the years 2017-2023, sourced from the UN Comtrade via World Bank WITS.</p>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 0 20px;
+        color: #2C3E50;
+    }
+    h1 {
+        text-align: center;
+    }
+    canvas {
+        margin-bottom: 60px;
+    }
+    h2 {
+        margin-top: 50px;
+        color:34495e;
+    }
+    table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    text-align: left;
+}
+th {
+    background-color: #34495e;
+    color: white;
+}
+</style>
+<h2>Total Export Value by Country (2017-2023)</h2>
+<canvas id="exportChart"></canvas>
+<h2>Price per Kilogram (Lithium Carbonate)</h2>
+<canvas id="priceChart"></canvas>
+<h2>Share of Combined Export Value by Year</h2>
+<canvas id="shareChart"></canvas>
+<h2>Chile: Lithium Hydroxide Price per Kilogram (USD)</h2>
+<table>
+    <tr>
+        <th>Year</th>
+        <th>Price per kg (USD)</th>
+    </tr>
+    <tr>
+        <td>2017</td>
+        <td>15.99</td>
+    </tr>
+    <tr>
+        <td>2018</td>
+        <td>16.87</td>
+    </tr>
+    <tr>
+        <td>2019</td>
+        <td>13.88</td>
+    </tr>
+    <tr>
+        <td>2020</td>
+        <td>6.05</td>
+    </tr>
+    <tr>
+        <td>2021</td>
+        <td>8.49</td>
+    </tr>
+    <tr>
+        <td>2022</td>
+        <td>38.47</td>
+    </tr>
+    <tr>
+        <td>2023</td>
+        <td>36.21</td>
+    </tr>
+</table>
+<script>
+const years = [2017,2018,2019,2020,2021,2022,2023];
+const chileData = [793483.926,1048358.677,886465.738,674001.581,980851.114,8844065.509,5073928.941];
+const boliviaData = [491.791,561.14,null,null,9939.7,37835.417,14649.929];
+const argentinaData = [null,null,null,56078.226,null,null,441300.292];
+const chilePriceCarbonate = [10.64,13.26,9.32,6.32,6.6,41.58,22.49];
+const boliviaPriceCarbonate = [10.93,18.7,null,null,9.85,60.06,45.75];
+const argentinaPriceCarbonate = [null,null,null,3.97,null,null,14.96];
+const chileShare = [99.9,99.9,100.0,92.3,99.0,99.6,91.8];
+const boliviaShare = [0.1,0.1,null,null,1.0,0.4,0.3];
+const argentinaShare = [null,null,null,7.7,null,null,8.0];
+
+new Chart (document.getElementById('exportChart'), {
+    type: 'line',
+    data: {
+        labels: years,
+        datasets: [
+            {label: 'Chile', data: chileData, borderColor: '#C0392B'},
+            {label: 'Bolivia', data: boliviaData, borderColor: '#27AE60'},
+            {label: 'Argentina', data: argentinaData, borderColor: '#2980B9'}
+        
+        ]
+    },
+    options: {
+        scales: {
+            y: {
+                type: 'logarithmic',
+                title: {display: true, text: 'Export Value (thousand USD, log scale)'}
+
+
+            }
+        }
+    }
+});
+new Chart (document.getElementById('priceChart'), {
+    type: 'line',
+    data: {
+        labels: years,
+        datasets: [
+            {label: 'Chile', data: chilePriceCarbonate, borderColor: '#C0392B'},
+            {label: 'Bolivia', data: boliviaPriceCarbonate, borderColor: '#27AE60'},
+            {label: 'Argentina', data: argentinaPriceCarbonate, borderColor: '#2980B9'}
+        
+        ]
+    },
+    options: {
+        scales: {
+            y: {
+                title: {display: true, text: 'Price per kg (USD)'}
+
+
+            }
+        }
+    }
+});
+new Chart (document.getElementById('shareChart'), {
+    type: 'bar',
+    data: {
+        labels: years,
+        datasets: [
+            {label: 'Chile', data: chileShare, backgroundColor: '#C0392B'},
+            {label: 'Bolivia', data: boliviaShare, backgrounColor: '#27AE60'},
+            {label: 'Argentina', data: argentinaShare, backgroundColor: '#2980B9'}
+        
+        ]
+    },
+    options: {
+        scales: {
+            x : {stacked: true},
+            y : {stacked: true, title: {display:true, text: '% of Combined Export Value'}}
+
+            }
+        }
+});
+
+</script>  
+</body>
+</html>
